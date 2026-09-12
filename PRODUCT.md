@@ -29,13 +29,13 @@ Full-cycle delivery with AI-first engineering and product thinking: one team fro
 - Lead form: name, email, date, time slot, timezone → Telegram. Bot token and chat id live only in hosting env vars.
 - Site copy is in English.
 - No Pricing section: pricing is not published (removed from navigation by decision, 2026-09-11).
-- "View all projects" link is hidden until a projects page or external portfolio exists.
+- "View all projects" link stays hidden until a projects page or external portfolio exists. The rewritten spec (`tech (1).md:111`) lists it again; the user re-confirmed on 2026-09-12 that it stays hidden, so do not re-ask.
 
 ## Brand Commitments
 
 - Name and logo mark: "‹Zift›".
 - Dark ground `#0a0a0a`, accent gradient `#FF6A2E → #FFB454` (pinned in spec).
-- Hero video: orange lightning, plays once on load and holds the last frame (`static/hero/hero.mp4`, 1280×720, 6 s).
+- Hero is built as three independent layers (spec Slice 1): a fixed 72-80px sky strip carrying the lightning video (`static/hero/hero.mp4`, 1280×720, 6 s) with the navbar on top, the hero's own star-field background, and decorative stroke-only SVG diamonds. The video plays once; afterwards an ambient star layer with rare flashes takes over. Mobile and reduced motion get the static poster frame.
 
 ## Evidence on Hand
 

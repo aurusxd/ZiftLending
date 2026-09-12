@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import { BOOKING_DAYS, CALL_EXPECTATIONS, TIME_SLOTS, TIMEZONES } from '$lib/config/contact';
-	import { prefersReducedMotion } from '$lib/gsap';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 
@@ -35,7 +34,6 @@
 	let attempted = $state(false);
 	let touched = $state<Partial<Record<Field, boolean>>>({});
 	let form = $state<HTMLFormElement>();
-	let dayRow = $state<HTMLElement>();
 
 	const errors = $derived<Record<Field, string>>({
 		name: name.trim().length < 2 ? 'Enter your name.' : '',
@@ -94,12 +92,6 @@
 		if (!untrack(() => timezone)) timezone = zones.some((z) => z.id === detected) ? detected : '';
 	});
 
-	function scrollDays(direction: 1 | -1) {
-		dayRow?.scrollBy({
-			left: direction * dayRow.clientWidth * 0.7,
-			behavior: prefersReducedMotion() ? 'auto' : 'smooth'
-		});
-	}
 
 	async function submit(event: SubmitEvent) {
 		event.preventDefault();
@@ -150,10 +142,10 @@
 
 	<div class="relative mx-auto max-w-7xl border-t border-line px-5 py-24 md:px-8 md:py-36">
 		<div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
-			<div class="min-w-0 lg:col-span-5 lg:pt-4">
+			<div class="flex min-w-0 flex-col justify-center lg:col-span-5">
 				<h2
 					id="contact-title"
-					class="text-[clamp(2.1rem,4.8vw,4.25rem)] leading-[1.02] font-semibold tracking-[-0.025em] text-fg"
+					class="font-wide text-[clamp(1.7rem,3.8vw,3.4rem)] leading-[1.08] font-extrabold tracking-display text-fg uppercase"
 				>
 					Book a Discovery Call
 				</h2>
@@ -161,7 +153,7 @@
 					Tell us what you're building. We'll look at your idea, the data you have and the fastest
 					route to a working product.
 				</p>
-				<ul class="mt-10 flex flex-col gap-4">
+				<ul class="mt-10 flex flex-col gap-5">
 					{#each CALL_EXPECTATIONS as item (item)}
 						<li class="flex gap-4 leading-relaxed text-fg/85">
 							<span aria-hidden="true" class="mt-3 h-px w-5 shrink-0 bg-accent-gradient"></span>
@@ -243,28 +235,9 @@
 								<legend class="sr-only">Day</legend>
 								<div class="flex items-center justify-between">
 									<span aria-hidden="true" class="text-sm font-medium text-fg/85">Day</span>
-									<span class="hidden gap-1 md:flex">
-										<button
-											type="button"
-											aria-label="Earlier days"
-											onclick={() => scrollDays(-1)}
-											class="grid size-9 place-items-center rounded-full border border-line text-fg/70 transition-colors hover:border-fg/30 hover:text-fg"
-										>
-											<Icon name="chevron-left" class="size-4" />
-										</button>
-										<button
-											type="button"
-											aria-label="Later days"
-											onclick={() => scrollDays(1)}
-											class="grid size-9 place-items-center rounded-full border border-line text-fg/70 transition-colors hover:border-fg/30 hover:text-fg"
-										>
-											<Icon name="chevron-right" class="size-4" />
-										</button>
-									</span>
 								</div>
 								<div
-									bind:this={dayRow}
-									class="-mx-1 mt-3 flex snap-x gap-2 overflow-x-auto px-1 py-1 [mask-image:linear-gradient(to_right,black_calc(100%-3rem),transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+									class="-mx-1 mt-3 flex snap-x gap-2 overflow-x-auto px-1 py-1 [mask-image:linear-gradient(to_right,black_calc(100%-3rem),transparent)] [scrollbar-width:none] md:flex-wrap md:overflow-visible md:[mask-image:none] [&::-webkit-scrollbar]:hidden"
 								>
 									{#if days.length}
 										{#each days as day (day.value)}

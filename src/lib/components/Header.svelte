@@ -6,6 +6,7 @@
 	import { CONTACT_SECTION, NAV_LINKS } from '$lib/config/nav-links';
 	import { MQ } from '$lib/config/design-tokens';
 	import { handleAnchor, scrollToSection } from '$lib/gsap';
+	import SkyStrip from '$lib/components/SkyStrip.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Logo from '$lib/components/ui/Logo.svelte';
 
@@ -61,17 +62,26 @@
 	}
 </script>
 
+<!-- Layer 1: the sky strip. Its video and ambient background sit behind this bar, while the
+	 nav is ordinary content on top and never moves with the animation. -->
 <header
 	data-site-header
 	class={[
-		'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-500',
-		scrolled || menuOpen ? 'border-line bg-bg/70 backdrop-blur-xl' : 'border-transparent'
+		'fixed inset-x-0 top-0 z-50 isolate transition-shadow duration-500',
+		scrolled && 'shadow-[0_18px_44px_-26px_rgb(0_0_0/0.95)]'
 	]}
 >
+	<SkyStrip />
+
 	<div
-		class="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5 md:h-20 md:px-8"
+		class="relative mx-auto grid h-18 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5 md:h-20 md:px-8"
 	>
-		<a href="#home" onclick={handleAnchor('home')} class="justify-self-start" aria-label="Zift, back to top">
+		<a
+			href="#home"
+			onclick={handleAnchor('home')}
+			class="justify-self-start"
+			aria-label="Zift, back to top"
+		>
 			<Logo />
 		</a>
 
@@ -83,7 +93,7 @@
 							href="#{link.section}"
 							onclick={handleAnchor(link.section)}
 							aria-current={active === link.section ? 'location' : undefined}
-							class="group relative block rounded-full px-4 py-2 text-sm text-secondary transition-colors duration-300 hover:text-fg aria-[current=location]:text-fg"
+							class="group relative block rounded-full px-4 py-2 text-sm text-fg/70 transition-colors duration-300 hover:text-fg aria-[current=location]:text-fg"
 						>
 							{link.label}
 							<span
@@ -139,7 +149,7 @@
 {#if menuOpen}
 	<div
 		id="mobile-menu"
-		class="fixed inset-0 z-40 flex flex-col bg-bg/95 px-5 pt-24 pb-10 backdrop-blur-xl md:hidden"
+		class="fixed inset-x-0 top-18 bottom-0 z-40 flex flex-col bg-bg/95 px-5 pt-6 pb-10 backdrop-blur-xl md:hidden"
 		transition:fade={{ duration: motion(250) }}
 	>
 		<nav aria-label="Mobile">
@@ -165,7 +175,10 @@
 			</ul>
 		</nav>
 
-		<div class="mt-auto" in:fly={{ y: 20, duration: motion(700), delay: motion(300), easing: expoOut }}>
+		<div
+			class="mt-auto"
+			in:fly={{ y: 20, duration: motion(700), delay: motion(300), easing: expoOut }}
+		>
 			<Button
 				href="#{CONTACT_SECTION}"
 				onclick={(event: MouseEvent) => goFromMenu(event, CONTACT_SECTION)}

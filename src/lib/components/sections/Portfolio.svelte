@@ -45,7 +45,7 @@
 			<Badge>Portfolio</Badge>
 			<h2
 				id="projects-title"
-				class="mt-8 text-[clamp(2.1rem,4.8vw,4.25rem)] leading-[1.02] font-semibold tracking-[-0.025em] text-fg"
+				class="mt-8 font-wide text-[clamp(1.6rem,3.5vw,3.1rem)] leading-[1.08] font-extrabold tracking-display text-fg uppercase"
 			>
 				Work That Speaks for Itself
 			</h2>

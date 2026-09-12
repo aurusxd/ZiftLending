@@ -49,6 +49,12 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
+	input,
+	textarea,
+	select {
+		caret-color: var(--color-accent-2);
+	}
+
 	::selection {
 		background-color: rgb(255 106 46 / 0.4);
 		color: #fff;

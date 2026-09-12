@@ -12,7 +12,7 @@
 	let panel = $state<HTMLElement>();
 	let list = $state<HTMLElement>();
 	let tabs: HTMLButtonElement[] = $state([]);
-	let indicator = $state({ x: 0, w: 0 });
+	let indicator = $state({ x: 0, y: 0, w: 0, h: 0 });
 	let edges = $state({ start: false, end: false });
 	let sequence = 0;
 
@@ -37,7 +37,7 @@
 		const row = list;
 		if (!tab || !row) return;
 		const measure = () => {
-			indicator = { x: tab.offsetLeft, w: tab.offsetWidth };
+			indicator = { x: tab.offsetLeft, y: tab.offsetTop, w: tab.offsetWidth, h: tab.offsetHeight };
 			updateEdges();
 		};
 		measure();
@@ -140,12 +140,12 @@
 				onkeydown={onKeydown}
 				onscroll={updateEdges}
 				style="mask-image: {mask}; -webkit-mask-image: {mask}"
-				class="relative mx-auto flex w-fit max-w-full snap-x gap-1 overflow-x-auto rounded-full border border-line bg-surface p-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+				class="relative mx-auto grid w-full max-w-full grid-cols-2 gap-1 rounded-3xl border border-line bg-surface p-1.5 md:flex md:w-fit md:flex-nowrap md:snap-x md:overflow-x-auto md:rounded-full md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden"
 			>
 				<span
 					aria-hidden="true"
-					class="absolute top-1.5 bottom-1.5 left-0 rounded-full bg-fg transition-[transform,width] duration-500 ease-(--ease-out-expo)"
-					style="width: {indicator.w}px; transform: translateX({indicator.x}px)"
+					class="absolute top-0 left-0 rounded-full bg-fg transition-[transform,width,height] duration-500 ease-(--ease-out-expo)"
+					style="width: {indicator.w}px; height: {indicator.h}px; transform: translate({indicator.x}px, {indicator.y}px)"
 				></span>
 				{#each SERVICES as item, i (item.id)}
 					<button
@@ -158,7 +158,7 @@
 						tabindex={active === i ? 0 : -1}
 						onclick={() => select(i)}
 						class={[
-							'relative shrink-0 snap-center rounded-full px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors duration-300 md:px-5',
+							'relative w-full rounded-full px-3 py-2.5 text-center text-sm font-medium transition-colors duration-300 md:w-auto md:shrink-0 md:snap-center md:px-5 md:whitespace-nowrap',
 							active === i ? 'text-bg' : 'text-secondary hover:text-fg'
 						]}
 					>
