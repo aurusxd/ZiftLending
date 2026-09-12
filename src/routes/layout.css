@@ -1,0 +1,90 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+
+/* Design tokens — single source of truth. Every token here becomes both a CSS variable
+   (e.g. --color-accent) and Tailwind utilities (bg-accent, text-secondary, shadow-glow…). */
+@theme {
+	--color-bg: #0a0a0a;
+	--color-surface: #121212;
+	--color-fg: #f4f1ec;
+	--color-secondary: rgb(244 241 236 / 0.62);
+	--color-line: rgb(244 241 236 / 0.1);
+	--color-accent: #ff6a2e;
+	--color-accent-2: #ffb454;
+	--color-danger: #ff7a70;
+
+	--font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+
+	--tracking-display: 0.035em;
+	--tracking-label: 0.16em;
+
+	--radius-card: 1.25rem;
+
+	--shadow-glow: 0 18px 50px -18px rgb(255 106 46 / 0.5);
+
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@utility bg-accent-gradient {
+	background-image: linear-gradient(100deg, var(--color-accent), var(--color-accent-2));
+}
+
+/* Archivo width axis: 125% is the expanded display cut. */
+@utility font-wide {
+	font-stretch: 125%;
+}
+
+@layer base {
+	html {
+		color-scheme: dark;
+		background-color: var(--color-bg);
+		scrollbar-color: rgb(244 241 236 / 0.2) var(--color-bg);
+	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-fg);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background-color: rgb(255 106 46 / 0.4);
+		color: #fff;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent-2);
+		outline-offset: 3px;
+	}
+
+	[tabindex='-1']:focus {
+		outline: none;
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--color-bg);
+	}
+	::-webkit-scrollbar-thumb {
+		background: rgb(244 241 236 / 0.16);
+		border: 2px solid var(--color-bg);
+		border-radius: 999px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: rgb(255 106 46 / 0.6);
+	}
+}
